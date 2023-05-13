@@ -1,5 +1,6 @@
 package com.example.myspringproject.models;
 
+
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -7,7 +8,6 @@ import java.util.List;
 @Entity
 public class Category {
     @Id
-    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 

@@ -10,49 +10,50 @@ import java.util.List;
 
 @Entity
 public class Product {
+
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "title", nullable = false, columnDefinition = "text", unique = true)
-    @NotEmpty(message = "Наименование не должно быть пустым")
+    @NotEmpty(message = "Наименование товара не может быть пустым")
     private String title;
 
-    @Column(name = "descripyion", nullable = false, columnDefinition = "text")
-    @NotEmpty(message = "Описание не должно быть пустым")
-    private String descripyion;
+    @Column(name = "description", nullable = false, columnDefinition = "text")
+    @NotEmpty(message = "Описание товара не может быть пустым")
+    private String description;
 
     @Column(name = "price", nullable = false)
-    @Min(value = 1, message = "Цена товара не может быть отрицательной или равняться нулю")
+    @Min(value = 1 , message = "Цена товара не может быть отрицательной или нулевой")
     private float price;
 
     @ManyToOne(optional = false)
     private Category category;
 
+    private LocalDateTime dateTime;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     private List<Image> imageList = new ArrayList<>();
 
-    //метод добавления фотографий в лист текуего продукта
+    // Данный метод позволяет добавить фотографию в лист текущего продукта
     public void addImageToProduct(Image image){
         image.setProduct(this);
         imageList.add(image);
     }
-    private LocalDateTime dateTime;
-
-    //Метод заполнения даты и времени при создании обектов класса
+    // Данный метод будет заполнять поле даты и времени при создании объекта класса
     @PrePersist
     private void init(){
         dateTime = LocalDateTime.now();
     }
 
-    public Product(String title, String descripyion, float price, Category category, List<Image> imageList, LocalDateTime dateTime) {
+    public Product(String title, String description, float price, Category category, LocalDateTime dateTime, List<Image> imageList) {
         this.title = title;
-        this.descripyion = descripyion;
+        this.description = description;
         this.price = price;
         this.category = category;
-        this.imageList = imageList;
         this.dateTime = dateTime;
+        this.imageList = imageList;
     }
 
     public Product() {
@@ -74,12 +75,12 @@ public class Product {
         this.title = title;
     }
 
-    public String getDescripyion() {
-        return descripyion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripyion(String descripyion) {
-        this.descripyion = descripyion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public float getPrice() {
@@ -98,19 +99,19 @@ public class Product {
         this.category = category;
     }
 
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<Image> imageList) {
-        this.imageList = imageList;
-    }
-
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
 }

@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 public class Image {
+
     @Id
-    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
