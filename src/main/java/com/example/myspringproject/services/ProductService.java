@@ -48,4 +48,30 @@ public class ProductService {
     public void deleteProduct(int id){
         productRepository.deleteById(id);
     }
+
+    public void findByTitleContainingIgnoreCase(Product product){
+        productRepository.findByTitleContainingIgnoreCase(product.getTitle());
+
+    }
+
+    public void findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(Product product){
+        productRepository.findByTitleAndPriceGreaterThanEqualAndPriceLessThanEqual(product.getTitle(),product.getPrice(),product.getPrice());
+    }
+
+    public void findByTitleOrderByPriceAsc(Product product){
+        productRepository.findByTitleOrderByPriceAsc(product.getTitle(),product.getPrice(),product.getPrice());
+    }
+
+    public void findByTitleOrderByPriceDesc(Product product){
+        productRepository.findByTitleOrderByPriceDesc(product.getTitle(),product.getPrice(),product.getPrice());
+    }
+
+//    public void findByTitleAndCategoryOrderByPriceAsc(Product product){
+//        productRepository.findByTitleAndCategoryOrderByPriceAsc(product.getTitle(),product.getPrice(),product.getPrice(),product.getCategory());
+//    }
+//
+//    public void findByTitleAndCategoryOrderByPriceDesc(Product product){
+//        productRepository.findByTitleAndCategoryOrderByPriceDesc(product.getTitle(),product.getPrice(),product.getPrice(),product.getCategory());
+//    }
+
 }
