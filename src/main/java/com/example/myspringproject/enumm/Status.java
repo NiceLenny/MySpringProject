@@ -1,5 +1,17 @@
 package com.example.myspringproject.enumm;
 
 public enum Status {
-    Принят, Оформлен, Ожидает, Получен
+    Принят("Принят"),
+    Оформлен("Оформлен"),
+    Ожидает("Ожидает"),
+    Получен("Получен");
+
+    private final String displayValue;
+    Status (String displayValue) {
+        this.displayValue = displayValue;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
+    }
 }

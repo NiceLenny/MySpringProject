@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование заказов</title>
+</head>
+<body>
+<h3>Заказ</h3>
+<form th:method="POST" th:action="@{/admin/order/edit/{id}(id=${order.getId()})}" th:object="${order}">
+    <h3 th:text="'Заказ №' + ${order.getNumber()}" th:field="${order.getNumber()}"></h3>
+    <img th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="300px">
+    <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}" th:field="*{product}">
+    <p th:text="'Количество: ' + ${order.getCount()}">
+    <p th:text="'Цена: ' + ${order.getPrice()}" th:field="*{price}">
+    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <h3 th:text="'Пользователь ' + ${order.getPerson().getLogin()}" th:field="${order.getPerson().id}"></h3>
+    <br>
+    <label for="statusOrder">Выберите: </label>
+    <select id="statusOrder" th:field="*{status}">
+        <option th:each="enum : ${T(com.example.myspringproject.enumm.Status).values()}"
+                th:text="${enum.getDisplayValue()}"
+                th:value = "${enum}">
+        </option>
+    </select>
+    <br>
+    <input type="submit" value="Изменить">
+</form>
+</body>
+</html>

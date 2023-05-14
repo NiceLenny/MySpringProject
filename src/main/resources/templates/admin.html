@@ -9,10 +9,10 @@
 <form method="post" action="/logout">
     <button type="submit">Выйти из личного кабинета</button>
 </form>
+
+<a href="admin/users">Зарегистрированные пользователи</a>
+<a href="admin/ordersAdm">Заказы</a>
 <a href="admin/product/add">Добавить товар</a>
-<form method="get" th:action="@{/ordersUser}">
-    <input type="submit" value="Заказы">
-</form>
 <hr>
 <div th:each="product : ${products}">
     <p th:text="'Наименование: ' + ${product.getTitle()}"></p>

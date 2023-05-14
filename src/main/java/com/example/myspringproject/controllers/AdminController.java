@@ -1,9 +1,9 @@
 package com.example.myspringproject.controllers;
 
-import com.example.myspringproject.models.Category;
-import com.example.myspringproject.models.Image;
-import com.example.myspringproject.models.Product;
+import com.example.myspringproject.models.*;
 import com.example.myspringproject.repositories.CategoryRepository;
+import com.example.myspringproject.services.OrderService;
+import com.example.myspringproject.services.PersonService;
 import com.example.myspringproject.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,13 +22,19 @@ public class AdminController {
 
     private final ProductService productService;
 
+    private final PersonService personService;
+
+    private final OrderService orderService;
+
     @Value("${upload.path}")
     private String uploadPath;
 
     private final CategoryRepository categoryRepository;
 
-    public AdminController(ProductService productService, CategoryRepository categoryRepository) {
+    public AdminController(ProductService productService, PersonService personService, OrderService orderService, CategoryRepository categoryRepository) {
         this.productService = productService;
+        this.personService = personService;
+        this.orderService = orderService;
         this.categoryRepository = categoryRepository;
     }
 
@@ -98,6 +104,48 @@ public class AdminController {
             return "product/editProduct";
         }
         productService.updateProduct(id, product);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("admin/users")
+    public String user(Model model){
+        model.addAttribute("person", personService.getAllPerson());
+        return "users";
+    }
+
+    @GetMapping("admin/ordersAdm")
+    public String order(Model model){
+        model.addAttribute("order", orderService.getAllOrder());
+        return "ordersAdm";
+    }
+
+    @GetMapping("admin/users/edit/{id}")
+    public String editPerson(Model model, @PathVariable("id") int id){
+        model.addAttribute("person", personService.getPersonId(id));
+        return "editPerson";
+    }
+
+    @PostMapping("admin/users/edit/{id}")
+    public String editPerson(@ModelAttribute("users") @Valid Person person, BindingResult bindingResult, @PathVariable("id") int id){
+        if(bindingResult.hasErrors()){
+            return "editPerson";
+        }
+        personService.editPerson(id, person);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/order/edit/{id}")
+    public String editOrder(Model model, @PathVariable("id") int id){
+        model.addAttribute("order", orderService.getOrderId(id));
+        return "editOrder";
+    }
+
+    @PostMapping("/admin/order/edit/{id}")
+    public String editOrder(@ModelAttribute("ordersAdm") @Valid Order order, BindingResult bindingResult, @PathVariable("id") int id){
+        if(bindingResult.hasErrors()){
+            return "editOrder";
+        }
+        orderService.editOrder(id, order);
         return "redirect:/admin";
     }
 }
