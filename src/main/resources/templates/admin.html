@@ -10,6 +10,9 @@
     <button type="submit">Выйти из личного кабинета</button>
 </form>
 <a href="admin/product/add">Добавить товар</a>
+<form method="get" th:action="@{/ordersUser}">
+    <input type="submit" value="Заказы">
+</form>
 <hr>
 <div th:each="product : ${products}">
     <p th:text="'Наименование: ' + ${product.getTitle()}"></p>
