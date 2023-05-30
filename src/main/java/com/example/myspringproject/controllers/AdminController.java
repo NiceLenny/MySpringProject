@@ -1,7 +1,9 @@
 package com.example.myspringproject.controllers;
 
+import com.example.myspringproject.enumm.Status;
 import com.example.myspringproject.models.*;
 import com.example.myspringproject.repositories.CategoryRepository;
+import com.example.myspringproject.repositories.OrderRepository;
 import com.example.myspringproject.services.OrderService;
 import com.example.myspringproject.services.PersonService;
 import com.example.myspringproject.services.ProductService;
@@ -26,15 +28,19 @@ public class AdminController {
 
     private final OrderService orderService;
 
+
+    private final OrderRepository orderRepository;
+
     @Value("${upload.path}")
     private String uploadPath;
 
     private final CategoryRepository categoryRepository;
 
-    public AdminController(ProductService productService, PersonService personService, OrderService orderService, CategoryRepository categoryRepository) {
+    public AdminController(ProductService productService, PersonService personService, OrderService orderService, OrderRepository orderRepository, CategoryRepository categoryRepository) {
         this.productService = productService;
         this.personService = personService;
         this.orderService = orderService;
+        this.orderRepository = orderRepository;
         this.categoryRepository = categoryRepository;
     }
 
@@ -132,6 +138,7 @@ public class AdminController {
         }
         personService.editPerson(id, person);
         return "redirect:/admin";
+
     }
 
     @GetMapping("/admin/order/edit/{id}")
@@ -141,11 +148,21 @@ public class AdminController {
     }
 
     @PostMapping("/admin/order/edit/{id}")
-    public String editOrder(@ModelAttribute("ordersAdm") @Valid Order order, BindingResult bindingResult, @PathVariable("id") int id){
+    public String editOrder(@ModelAttribute("order") @Valid Order order, BindingResult bindingResult, @PathVariable("id") int id){
         if(bindingResult.hasErrors()){
             return "editOrder";
         }
         orderService.editOrder(id, order);
-        return "redirect:/admin";
+        return "redirect:/admin/ordersAdm";
+    }
+
+
+    @PostMapping("/admin/order/searchOrder")
+    public String orderSearch(@RequestParam("searchOrder") String searchOrder, Model model){
+        model.addAttribute("order", orderService.getAllOrder());
+        model.addAttribute("value_search_order", searchOrder);
+        model.addAttribute("search_order", orderRepository.findByOrderNumber(searchOrder));
+
+        return "ordersAdm";
     }
 }

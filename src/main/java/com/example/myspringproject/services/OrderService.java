@@ -1,7 +1,6 @@
 package com.example.myspringproject.services;
 
 import com.example.myspringproject.models.Order;
-import com.example.myspringproject.models.Person;
 import com.example.myspringproject.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,7 @@ public class OrderService {
     }
 
 
-    // Данный метод позволяет получить список всех
+    // Данный метод позволяет получить список всех заказов
     public List<Order> getAllOrder(){
         return orderRepository.findAll();
     }

@@ -1,0 +1,10 @@
+body{
+    padding: 10%;
+}
+
+.sort{
+    border: 2px solid blue;
+    border-radius: 10%;
+    margin: 5%;
+    padding: 20px;
+}
